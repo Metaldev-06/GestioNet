@@ -1,0 +1,15 @@
+meta {
+  name: Get One Customer
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{URL}}/customers/e2827aba-aab6-402f-9c43-5f50d6562a52
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}

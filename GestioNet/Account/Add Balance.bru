@@ -1,0 +1,22 @@
+meta {
+  name: Add Balance
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL}}/account/balance
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "accountId":"27a1350f-9e89-48b0-83ce-271e46c2a56e",
+    "amount": 2000000
+  }
+}

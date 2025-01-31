@@ -1,0 +1,21 @@
+meta {
+  name: Delete Customer
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{URL}}/customers/ab1bad76-007c-4fd7-b16a-9b390c6a918b
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "name": "Macon SRL"
+  }
+}

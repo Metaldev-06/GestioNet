@@ -1,0 +1,19 @@
+meta {
+  name: Get All Users
+  type: http
+  seq: 1
+}
+
+get {
+  url: {
+  "message": "Credentials are not valid",
+  "error": "Unauthorized",
+  "statusCode": 401
+}{{URL}}/user
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Settle Debt
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{URL}}/account/settle-debt
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "accountId":"27a1350f-9e89-48b0-83ce-271e46c2a56e",
+    "amount": 1500000
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Update User
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{URL}}/user/81b6569e-cf4c-4785-be75-89f61dc0084f
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "firstName": "Fernando"
+  }
+}
