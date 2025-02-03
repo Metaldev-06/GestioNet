@@ -23,6 +23,32 @@ export class Customer {
   })
   name: string;
 
+  @Column('text', {
+    nullable: true,
+    unique: false,
+  })
+  dni: string;
+
+  @Column('text', {
+    nullable: true,
+  })
+  address: string;
+
+  @Column('text', {
+    nullable: true,
+  })
+  city: string;
+
+  @Column('text', {
+    nullable: true,
+  })
+  email: string;
+
+  @Column('text', {
+    nullable: true,
+  })
+  phone: string;
+
   @OneToOne(() => Account, (account) => account.customer, {
     cascade: true,
     eager: true,
