@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
@@ -49,12 +49,18 @@ export class CustomersService {
   async findAll(paginationDto: PaginationDto) {
     const { limit, offset, order, sort, term } = paginationDto;
 
+    const where: FindOptionsWhere<Customer> = {};
+
+    if (term) {
+      where.name = ILike(`%${term}%`);
+    }
+
     return await this.paginationService.paginate(this.customerRepository, {
       limit,
       offset,
       order,
       sort: sort as keyof Customer,
-      // where: { systemUserId: { id: systemUser.id } },
+      where,
       // relations: ['account'],
     });
   }
