@@ -1,0 +1,18 @@
+meta {
+  name: Get All Transactions By Month
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{URL}}/transactions/by-month/8b3c61f1-3adf-4d04-b46f-3faa0ca429e5?year=2025&month=02&page=0&limit=10
+  body: none
+  auth: none
+}
+
+params:query {
+  year: 2025
+  month: 02
+  page: 0
+  limit: 10
+}

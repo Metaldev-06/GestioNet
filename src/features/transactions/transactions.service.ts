@@ -1,26 +1,96 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Transaction } from './entities/transaction.entity';
 
 @Injectable()
 export class TransactionsService {
-  create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
+  constructor(
+    @InjectRepository(Transaction)
+    private readonly transactionRepository: Repository<Transaction>,
+  ) {}
+
+  async findAll() {
+    return await this.transactionRepository.find();
   }
 
-  findAll() {
-    return `This action returns all transactions`;
+  async getTransactionsByDate(accountId: string, year: number) {
+    const transactions = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .select([
+        `strftime('%m', transaction.createdAt) AS month`, // Extraer mes
+        `COUNT(transaction.id) AS transactionsTotal`,
+      ])
+      .where('transaction.accountId = :accountId', { accountId })
+      .andWhere("strftime('%Y', transaction.createdAt) = :year", {
+        year: year.toString(),
+      }) // Extraer año
+      .groupBy('month')
+      .orderBy('month', 'ASC')
+      .getRawMany();
+
+    // Mapeo de todos los meses del año (1 a 12) asegurando que todos los meses estén representados
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+
+    // Creamos un objeto con los meses del año y transactionsTotal en 0 por defecto
+    const formattedResult = months.map((month) => {
+      const transaction = transactions.find((t) => Number(t.month) === month);
+      return {
+        year,
+        month,
+        transactionsTotal: transaction
+          ? Number(transaction.transactionsTotal)
+          : 0,
+      };
+    });
+
+    // Calculamos el total de todas las transacciones en el año
+    const total = formattedResult.reduce(
+      (sum, item) => sum + item.transactionsTotal,
+      0,
+    );
+
+    // Agregamos el total al final del array
+    formattedResult.push({ total });
+
+    return formattedResult;
+  }
+
+  async getTransactionsByMonth(
+    accountId: string,
+    year: number,
+    month: number,
+    page: number,
+    limit: number,
+  ) {
+    const offset = (page - 1) * limit; // Calcula el desplazamiento para la paginación.
+
+    const [transactions, totalRecords] = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .where('transaction.accountId = :accountId', { accountId })
+      .andWhere("strftime('%Y', transaction.createdAt) = :year", {
+        year: year.toString(),
+      }) // Filtra por año
+      .andWhere("strftime('%m', transaction.createdAt) = :month", {
+        month: month.toString().padStart(2, '0'),
+      }) // Filtra por mes
+      .orderBy('transaction.createdAt', 'DESC') // Ordenar por fecha de transacción descendente
+      .skip(offset)
+      .take(limit)
+      .getManyAndCount(); // Obtiene los datos paginados y la cantidad total de registros
+
+    return {
+      transactions,
+      pagination: {
+        page,
+        limit,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limit),
+      },
+    };
   }
 
   findOne(id: number) {
     return `This action returns a #${id} transaction`;
-  }
-
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
   }
 }

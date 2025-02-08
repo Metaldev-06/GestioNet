@@ -14,7 +14,9 @@ export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Account, (account) => account.transactions)
+  @ManyToOne(() => Account, (account) => account.transactions, {
+    eager: true,
+  })
   accountId: Relation<Account>;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })

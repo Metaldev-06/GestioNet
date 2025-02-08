@@ -1,0 +1,15 @@
+meta {
+  name: Get All Transactions By Date
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{URL}}/transactions/by-date/8b3c61f1-3adf-4d04-b46f-3faa0ca429e5?year=2025
+  body: none
+  auth: none
+}
+
+params:query {
+  year: 2025
+}
