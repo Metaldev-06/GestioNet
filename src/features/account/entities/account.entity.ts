@@ -30,6 +30,9 @@ export class Account {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   debt: number; // Deuda actual.
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  debtLimit: number; // Límite de deuda.
+
   @CreateDateColumn()
   createdAt: Date;
 

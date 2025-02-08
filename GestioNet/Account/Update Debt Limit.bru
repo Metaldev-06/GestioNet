@@ -1,0 +1,21 @@
+meta {
+  name: Update Debt Limit
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{URL}}/account/debt-limit/8b3c61f1-3adf-4d04-b46f-3faa0ca429e5
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "debtLimit": 2000000
+  }
+}

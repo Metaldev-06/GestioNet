@@ -33,7 +33,7 @@ export class TransactionsService {
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
     // Creamos un objeto con los meses del año y transactionsTotal en 0 por defecto
-    const formattedResult = months.map((month) => {
+    const formattedTransactions = months.map((month) => {
       const transaction = transactions.find((t) => Number(t.month) === month);
       return {
         year,
@@ -45,15 +45,16 @@ export class TransactionsService {
     });
 
     // Calculamos el total de todas las transacciones en el año
-    const total = formattedResult.reduce(
+    const total = formattedTransactions.reduce(
       (sum, item) => sum + item.transactionsTotal,
       0,
     );
 
-    // Agregamos el total al final del array
-    formattedResult.push({ total });
-
-    return formattedResult;
+    // Devolvemos la estructura deseada
+    return {
+      transactions: formattedTransactions,
+      total,
+    };
   }
 
   async getTransactionsByMonth(

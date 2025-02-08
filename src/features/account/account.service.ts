@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Transaction } from '../transactions/entities/transaction.entity';
 import { BalanceDto } from './dto/balance.dto';
 import { TransactionType } from 'src/common/enums/transaction-type.enum,';
+import { UpdateAccountDto } from './dto/update-account.dto';
 
 @Injectable()
 export class AccountService {
@@ -102,5 +103,14 @@ export class AccountService {
     await this.transactionRepository.save(transaction);
 
     return account;
+  }
+
+  async updateDebtLimit(id: string, updateAccountDto: UpdateAccountDto) {
+    const account = await this.accountRepository.preload({
+      id,
+      ...updateAccountDto,
+    });
+
+    return await this.accountRepository.save(account);
   }
 }

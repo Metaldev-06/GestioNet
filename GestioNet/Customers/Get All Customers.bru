@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: {{URL}}/customers
+  url: {{URL}}/customers?order=asc&sort=name
   body: none
   auth: bearer
 }
 
 params:query {
-  ~term: 
+  order: asc
+  sort: name
 }
 
 auth:bearer {
