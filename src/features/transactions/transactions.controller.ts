@@ -20,6 +20,11 @@ export class TransactionsController {
     return this.transactionsService.findAll();
   }
 
+  @Get('by-year/:accountId')
+  async getTransactionYears(@Param('accountId') accountId: string) {
+    return this.transactionsService.getTransactionYears(accountId);
+  }
+
   @Get('/by-date/:id')
   async getTransactionsByDate(
     @Param('id', ParseUUIDPipe) accountId: string,

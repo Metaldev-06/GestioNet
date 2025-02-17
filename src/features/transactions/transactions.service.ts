@@ -91,6 +91,18 @@ export class TransactionsService {
     };
   }
 
+  async getTransactionYears(accountId: string): Promise<number[]> {
+    const years = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .select("DISTINCT strftime('%Y', transaction.createdAt) AS year") // Extraer años únicos
+      .where('transaction.accountId = :accountId', { accountId })
+      .orderBy('year', 'ASC') // Ordenar de menor a mayor
+      .getRawMany();
+
+    // Retornar solo un array de números
+    return years.map((t) => Number(t.year));
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} transaction`;
   }
