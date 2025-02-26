@@ -21,7 +21,7 @@ export class AccountService {
   private readonly ctxName = this.constructor.name;
 
   async addBalance(balanceDto: BalanceDto) {
-    const { accountId, amount } = balanceDto;
+    const { accountId, amount, description } = balanceDto;
 
     const account = await this.accountRepository.findOne({
       where: { id: accountId },
@@ -36,7 +36,7 @@ export class AccountService {
       accountId: account,
       amount,
       type: TransactionType.CREDIT,
-      description: 'Saldo agregado',
+      description: description ?? 'Saldo agregado',
     });
     await this.transactionRepository.save(transaction);
 
@@ -45,7 +45,7 @@ export class AccountService {
 
   // AccountService
   async reduceBalance(balanceDto: BalanceDto) {
-    const { accountId, amount } = balanceDto;
+    const { accountId, amount, description } = balanceDto;
 
     const account = await this.accountRepository.findOne({
       where: { id: accountId },
@@ -68,7 +68,7 @@ export class AccountService {
       accountId: account,
       amount: -amount,
       type: TransactionType.DEBIT,
-      description: 'Consumo de combustible',
+      description: description ?? 'Consumo de combustible',
     });
     await this.transactionRepository.save(transaction);
 
@@ -76,7 +76,7 @@ export class AccountService {
   }
 
   async settleDebt(balanceDto: BalanceDto) {
-    const { accountId, amount } = balanceDto;
+    const { accountId, amount, description } = balanceDto;
 
     const account = await this.accountRepository.findOne({
       where: { id: accountId },
@@ -98,7 +98,7 @@ export class AccountService {
       accountId: account,
       amount: amount,
       type: TransactionType.CREDIT,
-      description: 'Pago de deuda',
+      description: description ?? 'Pago de deuda',
     });
     await this.transactionRepository.save(transaction);
 
