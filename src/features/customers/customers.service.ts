@@ -1,14 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 
+import { Account } from '../account/entities/account.entity';
 import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from './entities/customer.entity';
 import { HandleDBExceptions } from 'src/common/helpers';
-import { Account } from '../account/entities/account.entity';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { PaginationService } from 'src/common/services/pagination/pagination.service';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Injectable()
 export class CustomersService {
@@ -27,7 +28,7 @@ export class CustomersService {
   async create(createCustomerDto: CreateCustomerDto) {
     try {
       const customer = this.customerRepository.create(createCustomerDto);
-      await this.customerRepository.save(customer); // Guarda primero el cliente
+      await this.customerRepository.save(customer);
 
       const account = this.accountRepository.create({
         customer,
@@ -35,7 +36,7 @@ export class CustomersService {
         debt: 0,
       });
 
-      await this.accountRepository.save(account); // Guarda la cuenta
+      await this.accountRepository.save(account);
 
       customer.account = account;
       await this.customerRepository.save(customer);
@@ -81,7 +82,6 @@ export class CustomersService {
       relations: ['account'],
     });
 
-    // Calcular los totales
     const totalCustomers = customers.length;
     const totalBalance = customers.reduce(
       (sum, customer) => sum + (customer.account?.balance || 0),

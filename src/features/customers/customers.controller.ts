@@ -15,9 +15,9 @@ import {
 import { Auth } from '../auth/decorators/auth.decorator';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { CustomersService } from './customers.service';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { Role } from 'src/common/enums/system-role.enum';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('customers')
 @Auth(Role.REGULAR)
