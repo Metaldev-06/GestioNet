@@ -40,6 +40,11 @@ export class CustomersController {
     return this.customersService.findAllSanitized();
   }
 
+  @Get('summary')
+  async getCustomerSummary() {
+    return this.customersService.getCustomerSummary();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.customersService.findOne(id);

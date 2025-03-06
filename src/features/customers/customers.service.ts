@@ -76,6 +76,31 @@ export class CustomersService {
     }));
   }
 
+  async getCustomerSummary() {
+    const customers = await this.customerRepository.find({
+      relations: ['account'],
+    });
+
+    // Calcular los totales
+    const totalCustomers = customers.length;
+    const totalBalance = customers.reduce(
+      (sum, customer) => sum + (customer.account?.balance || 0),
+      0,
+    );
+    const totalDebt = customers.reduce(
+      (sum, customer) => sum + (customer.account?.debt || 0),
+      0,
+    );
+    const total = totalBalance - totalDebt;
+
+    return {
+      total,
+      balance: totalBalance,
+      debt: totalDebt,
+      customers: totalCustomers,
+    };
+  }
+
   async findOne(id: string) {
     return this.customerRepository.findOneBy({ id });
   }

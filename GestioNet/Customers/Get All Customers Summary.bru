@@ -1,11 +1,11 @@
 meta {
-  name: Get All Customers Sanitized
+  name: Get All Customers Summary
   type: http
-  seq: 6
+  seq: 7
 }
 
 get {
-  url: {{URL}}/customers/sanitized?order=asc&sort=name
+  url: {{URL}}/customers/summary?order=asc&sort=name
   body: none
   auth: bearer
 }
