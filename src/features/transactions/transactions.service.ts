@@ -64,7 +64,7 @@ export class TransactionsService {
     page: number,
     limit: number,
   ) {
-    const offset = (page - 1) * limit; // Calcula el desplazamiento para la paginación.
+    // const offset = (page - 1) * limit; // Calcula el desplazamiento para la paginación.
 
     const [transactions, totalRecords] = await this.transactionRepository
       .createQueryBuilder('transaction')
@@ -76,7 +76,7 @@ export class TransactionsService {
         month: month.toString().padStart(2, '0'),
       }) // Filtra por mes
       .orderBy('transaction.createdAt', 'DESC') // Ordenar por fecha de transacción descendente
-      .skip(offset)
+      .skip(page)
       .take(limit)
       .getManyAndCount(); // Obtiene los datos paginados y la cantidad total de registros
 

@@ -35,6 +35,11 @@ export class CustomersController {
     return this.customersService.findAll(paginationDto);
   }
 
+  @Get('sanitized')
+  findAllSanitized() {
+    return this.customersService.findAllSanitized();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.customersService.findOne(id);

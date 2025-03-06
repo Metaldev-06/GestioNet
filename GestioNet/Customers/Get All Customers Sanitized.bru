@@ -1,0 +1,20 @@
+meta {
+  name: Get All Customers Sanitized
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{URL}}/customers?order=asc&sort=name
+  body: none
+  auth: bearer
+}
+
+params:query {
+  order: asc
+  sort: name
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}

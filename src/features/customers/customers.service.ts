@@ -65,6 +65,17 @@ export class CustomersService {
     });
   }
 
+  async findAllSanitized() {
+    const customers = await this.customerRepository.find({
+      select: ['name', 'account'],
+    });
+
+    return customers.map((customer) => ({
+      name: customer.name,
+      accountId: customer.account.id,
+    }));
+  }
+
   async findOne(id: string) {
     return this.customerRepository.findOneBy({ id });
   }
