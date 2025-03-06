@@ -8,9 +8,13 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
 } from '@nestjs/common';
+
 import { TransactionsService } from './transactions.service';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { Role } from '../../common/enums/system-role.enum';
 
 @Controller('transactions')
+@Auth(Role.REGULAR)
 @UseInterceptors(ClassSerializerInterceptor)
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
