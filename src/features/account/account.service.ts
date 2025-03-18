@@ -28,7 +28,18 @@ export class AccountService {
     });
     if (!account) throw new NotFoundException('Account not found');
 
-    account.balance += amount;
+    if (account.debt > 0) {
+      if (amount >= account.debt) {
+        const remaining = amount - account.debt;
+        account.debt = 0;
+        account.balance += remaining;
+      } else {
+        account.debt -= amount;
+      }
+    } else {
+      account.balance += amount;
+    }
+
     await this.accountRepository.save(account);
 
     // Registrar la transacción
