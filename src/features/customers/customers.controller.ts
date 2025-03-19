@@ -11,6 +11,7 @@ import {
   Query,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Auth } from '../auth/decorators/auth.decorator';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -22,6 +23,8 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 @Controller('customers')
 @Auth(Role.REGULAR)
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('Customers')
+@ApiBearerAuth()
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 

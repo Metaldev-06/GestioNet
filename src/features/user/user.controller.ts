@@ -9,6 +9,7 @@ import {
   ClassSerializerInterceptor,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Auth } from '../auth/decorators/auth.decorator';
 import { Role } from 'src/common/enums/system-role.enum';
@@ -19,6 +20,8 @@ import { User } from './entities/user.entity';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('User')
+@ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

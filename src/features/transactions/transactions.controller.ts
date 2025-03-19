@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { TransactionsService } from './transactions.service';
 import { Auth } from '../auth/decorators/auth.decorator';
@@ -16,6 +17,8 @@ import { Role } from '../../common/enums/system-role.enum';
 @Controller('transactions')
 @Auth(Role.REGULAR)
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('Transactions')
+@ApiBearerAuth()
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 

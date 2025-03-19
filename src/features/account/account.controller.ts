@@ -8,6 +8,7 @@ import {
   Param,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { AccountService } from './account.service';
 import { Auth } from '../auth/decorators/auth.decorator';
@@ -18,6 +19,8 @@ import { UpdateAccountDto } from './dto/update-account.dto';
 @Controller('account')
 @Auth(Role.REGULAR)
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('Account')
+@ApiBearerAuth()
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 

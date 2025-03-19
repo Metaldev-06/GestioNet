@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { envs } from './config/envs';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 import { LoggerHelper } from './common/helpers';
 
 async function bootstrap() {
@@ -19,6 +20,16 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('GestioNet Documentation')
+    .setDescription('The GestioNet API description')
+    .setVersion('1.0')
+    // .addTag('GestioNet')
+    .addBearerAuth()
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, documentFactory);
 
   await app.listen(PORT);
 
