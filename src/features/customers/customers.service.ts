@@ -102,7 +102,9 @@ export class CustomersService {
   }
 
   async findOne(id: string) {
-    return this.customerRepository.findOneBy({ id });
+    const customer = await this.customerRepository.findOneBy({ id });
+    if (!customer) throw new BadRequestException('Customer not found');
+    return customer;
   }
 
   async update(id: string, updateCustomerDto: UpdateCustomerDto) {
@@ -120,7 +122,7 @@ export class CustomersService {
   async remove(id: string) {
     const customer = await this.findOne(id);
 
-    if (!customer) throw new BadRequestException('Customer not found');
+    // if (!customer) throw new BadRequestException('Customer not found');
 
     await this.customerRepository.softRemove(customer);
 
