@@ -6,6 +6,7 @@ import { AuthModule } from './features/auth/auth.module';
 import { CustomersModule } from './features/customers/customers.module';
 import { AccountModule } from './features/account/account.module';
 import { TransactionsModule } from './features/transactions/transactions.module';
+import { FuelVouchersModule } from './features/fuel-vouchers/fuel-vouchers.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TransactionsModule } from './features/transactions/transactions.module'
     CustomersModule,
     AccountModule,
     TransactionsModule,
+    FuelVouchersModule,
   ],
   controllers: [],
   providers: [],

@@ -1,11 +1,13 @@
 import { Exclude } from 'class-transformer';
 import { Account } from 'src/features/account/entities/account.entity';
+import { FuelVoucher } from 'src/features/fuel-vouchers/entities/fuel-voucher.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   Relation,
@@ -55,6 +57,9 @@ export class Customer {
   })
   @JoinColumn()
   account: Relation<Account>;
+
+  @OneToMany(() => FuelVoucher, (fuelVoucher) => fuelVoucher.customerId, {})
+  fuelVauchers: Relation<FuelVoucher[]>;
 
   @CreateDateColumn()
   createdAt: Date;
