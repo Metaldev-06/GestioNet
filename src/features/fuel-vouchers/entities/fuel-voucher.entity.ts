@@ -6,7 +6,7 @@ import {
   Relation,
 } from 'typeorm';
 
-import { StateVoucher } from 'src/common/enums/sort-order.enum copy';
+import { StateVoucher } from 'src/common/enums/state-order.enum';
 import { Customer } from 'src/features/customers/entities/customer.entity';
 
 @Entity()

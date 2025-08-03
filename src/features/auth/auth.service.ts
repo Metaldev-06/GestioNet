@@ -21,7 +21,7 @@ export class AuthService {
     await ComparePassword(password, user.password);
 
     return {
-      token: this.getJtwToken({ email, role: user.role }),
+      token: this.getJwtToken({ email, role: user.role }),
       user,
     };
   }
@@ -30,7 +30,7 @@ export class AuthService {
     try {
       const user = await this.userService.create(registerAuthDto);
       return {
-        token: this.getJtwToken({
+        token: this.getJwtToken({
           email: user.email,
           role: user.role,
         }),
@@ -41,7 +41,7 @@ export class AuthService {
     }
   }
 
-  private getJtwToken(payload: JwtPayload): string {
+  private getJwtToken(payload: JwtPayload): string {
     const token = this.jwtService.sign(payload);
     return token;
   }
