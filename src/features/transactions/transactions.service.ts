@@ -14,6 +14,26 @@ export class TransactionsService {
     return await this.transactionRepository.find();
   }
 
+  async getMonthlyAmountTotal(
+    accountId: string,
+    year: number,
+    month: number,
+  ): Promise<number> {
+    const result = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .select('SUM(transaction.amount)', 'total')
+      .where('transaction.accountId = :accountId', { accountId })
+      .andWhere("strftime('%Y', transaction.createdAt) = :year", {
+        year: year.toString(),
+      })
+      .andWhere("strftime('%m', transaction.createdAt) = :month", {
+        month: month.toString().padStart(2, '0'),
+      })
+      .getRawOne();
+
+    return Number(result.total ?? 0); // Si no hay resultados, retorna 0
+  }
+
   async getTransactionsByDate(accountId: string, year: number) {
     const transactions = await this.transactionRepository
       .createQueryBuilder('transaction')

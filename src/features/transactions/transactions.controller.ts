@@ -61,4 +61,18 @@ export class TransactionsController {
   findOne(@Param('id') id: string) {
     return this.transactionsService.findOne(+id);
   }
+
+  @Get('total-amount/:accountId')
+  async getMonthlyAmount(
+    @Param('accountId', ParseUUIDPipe) accountId: string,
+    @Query('year', ParseIntPipe) year: number,
+    @Query('month', ParseIntPipe) month: number,
+  ) {
+    const total = await this.transactionsService.getMonthlyAmountTotal(
+      accountId,
+      year,
+      month,
+    );
+    return { total };
+  }
 }

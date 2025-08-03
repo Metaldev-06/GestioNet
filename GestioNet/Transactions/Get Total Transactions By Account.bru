@@ -1,0 +1,15 @@
+meta {
+  name: Get Total Transactions By Account
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{URL}}/transactions/total/8b3c61f1-3adf-4d04-b46f-3faa0ca429e5
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
